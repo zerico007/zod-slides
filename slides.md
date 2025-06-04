@@ -1,7 +1,7 @@
 ---
 theme: seriph
 
-background: https://cover.sli.dev
+background: "/static/bitovi_bg.png"
 # some information about your slides (markdown enabled)
 title: Schema Validation in Forms with Zod
 
@@ -21,10 +21,15 @@ mdc: true
   Let's begin <carbon:arrow-right />
 </div>
 
-<div class="abs-br m-6 text-xl">
-  <a href="https://github.com/zerico007/zod-slides" target="_blank" class="slidev-icon-btn">
-    <carbon:logo-github />
-  </a>
+<div class="abs-bl flex gap-4 m-6">
+  <div class="flex flex-col items-center">
+    <img src="/static/bavin_edwards.jpg" class="rounded-full w-32 h-32 object-contain" />
+    <p class="mt-2 text-sm text-white">Bavin Edwards</p>
+  </div>
+  <div class="flex flex-col items-center">
+    <img src="/static/ali_shouman.jpg" class="rounded-full w-32 h-32 object-contain" />
+    <p class="mt-2 text-sm text-white">Ali Shouman</p>
+  </div>
 </div>
 
 <!--
@@ -39,10 +44,15 @@ transition: fade-out
 
 TypeScript-first schema validation with static type inference.
 
-- **TypeScript-first**: Zod is designed to work seamlessly with TypeScript, providing type inference and validation.
-- **Schema validation**: Zod allows you to define schemas for your data structures, ensuring that they conform to specific rules and types.
-- **Static type inference**: Zod automatically infers TypeScript types from your schemas, reducing the need for manual type definitions.
-- **Foundation**: Zod is Typescript written as functional programming, making it a powerful tool for building robust applications.
+- Zero external dependencies
+- Works in Node.js and all modern browsers
+- Tiny: 2kb core bundle (gzipped)
+- Immutable API: methods return a new instance
+- Concise interface
+- Works with TypeScript and plain JS
+- Built-in JSON Schema conversion
+- Extensive ecosystem
+- Zod is pretty much like Typescript written as functional programming, making it a powerful tool for building robust applications.
   <br>
   <br>
 
@@ -69,13 +79,16 @@ level: 2
 
 # How do we define a schema?
 
-```ts {all|1|3-7}{lines:true,startLine:1,maxHeight:'500px'}
+```ts {all|1|3-10}{lines:true,startLine:1,maxHeight:'500px'}
 import { z } from 'zod';
 
 const userSchema = z.object({
   name: z.string(),
-  age: z.number().,
-  email: z.string().email("Invalid email address"),
+  age: z.number(),
+  email: z.email({ 
+    error: "Invalid email address",
+    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ 
+  }),
 });
 ```
 
@@ -249,14 +262,14 @@ level: 2
 # Using Zod with React Hook Form
 
 ```ts {all|1-8|12|14-22|24-28|30-34|37-62|65}{lines:true,startLine:1,maxHeight:'500px'}
-import type { PersonalInfoFormType } from "@/lib/schemas/personal-info-form-schema";
+import type { SpiaInfoFormType } from "@/lib/schemas/spia-info-form-schema";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
-import { personalInfoFormSchema } from "@/lib/schemas/personal-info-form-schema";
+import { spiaInfoFormSchema } from "@/lib/schemas/spia-info-form-schema";
 
 export const useSpiaInfoForm = () => {
   const router = useRouter();
